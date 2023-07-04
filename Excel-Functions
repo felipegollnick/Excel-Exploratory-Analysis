@@ -1,0 +1,126 @@
+-- Exploratory Data Analysis with Excel
+-- Using Excel to analyze my friends' NBA bets
+
+-- In order to make it easier to read, I'm replacing the original columns letters (e.g "A:A") by what the column means in square brackets (e.g: [Year]) 
+
+
+
+---- FIRST HYPOTHESIS: Participants would make conservative bets in the first two rounds of the Playoffs and more audatious bet in the last two rounds
+
+-- Creating columns to find if the bet was conservative:
+
+[Conservative]
+= IF([Bet_Games Won by Higher Ranked team] > [Bet_Games Won by Lower Ranked team], 1, 0)
+
+[Conservative T/F]
+= IF([Conservative] = 1; TRUE; FALSE)
+
+
+-- Finding out conservative bets by year and round (e.g: first round from 2021 season):
+
+[Conservative Bets Sum]
+= SUMIF('2021bets'![Round]; "1st Rd"; [Conservative])
+
+
+-- Counting ALL bets by year and round (e.g: first round from 2021 season)
+
+[Bets count]
+= COUNTIF('2021bets'![Round]'; "1st Rd")
+
+
+-- Calculating conservative bets %:
+
+[Conservative Bets %]
+= ([Conservative bets Sum] * 100) / [Bets count]
+
+
+-- RESULT: First hypothesis was wrong, participants would usually be conservative in all rounds (except for for the 2019 finals).
+
+
+
+---- SECOND HYPOTHESIS: Conservative bets would usually pay off
+
+
+-- Creating columns to find out it the bet was right about the winning team:
+
+[Bet_Games Won Margin]
+= [Bet_Games Won by Higher Ranked team] -  [Bet_Games Won by Lower Ranked team]
+
+[Bet_Winning Team]
+= IF([Bet_Games Won Margin] > 0; "Higher-Ranked Team"; "Lower-Ranked Team")
+
+
+-- Bringing the results of the real games to from another table (with all the real life results) to this one:
+
+[Real_Games Won Margin]
+= VLOOKUP ([Series ID]; 'Real life Results Table'; [Games Won Difference]; 0)
+
+[Real_Winning Team]
+= IF([Real_Games Won Margin] > 0; "Higher-Ranked Team"; "Lower-Ranked Team")
+
+
+-- Comparing colums:
+
+[Bet was right]
+= IF([Bet_Winning Team] = [Real_Winning Team]); 1; 0)
+
+[Bet was right T/F]
+= IF([Bet was right] = 1); TRUE; FALSE)
+
+
+-- Finding out conservative bets that were RIGHT, by year and round (e.g: first round from 2021 season):
+
+[Right Conservative Bets]
+= SUMIFS('2021bets'![Bet was right]; [Round]; "1st Rd"; '2021bets'![Conservative]; "TRUE")
+
+
+-- Finding out ALL the conservative bets by year and round (e.g: first round from 2021 season):
+
+[Conservative Bets]
+= COUNTIFS('2021bets'![Round]; "1st Rd"; '2021bets'![Conservative]; "TRUE")
+
+
+-- Calculating % of the conservative bets that were right:
+
+[Right Conservative Bets %]
+= ([Right Conservative Bets] * 100) / [Conservative Bets]
+
+
+-- RESULT: Second hypothesis was right, 76,6% of the conservative bets were right. Also, splitting that calculation by year and round may better show in which series the underdogs had a great performance.
+
+
+
+---- THIRD HYPOTHESIS: Series results: in average, participants would bet that the series from the first two rounds would end with a 4-0 or a 4-1 result; The last two rounds would be in general 4-3 or 4-2.
+
+
+-- In this case I wanted to test nested functions. Let's find the average bet of how many games the each team won in a series, by year and round (e.g: first round from 2021 season)
+
+[Higher-Ranked Team, Average Games Won]
+= SUMIF('2021bets'![Round]; "1st Rd";'2021bets'![Bet_Games Won by Higher Ranked team])
+/ COUNTIF('2021bets'![Round]; "1st Rd")
+
+[Lower-Ranked Team, Average Games Won]
+= SUMIF('2021bets'![Round]; "1st Rd";'2021bets'![Bet_Games Won by Lower Ranked team])
+/ COUNTIF('2021bets'![Round]; "1st Rd")
+
+
+-- And, for the "Total" column that would sum data from the four years up, I decided to test even more functions in the same expression:
+
+= ( SUMIF('2021bets'![Round]; "1st Rd";'2021bets'![Bet_Games Won by Lower Ranked team]) + 
+SUMIF('2020bets'![Round]; "1st Rd";'2020bets'![Bet_Games Won by Lower Ranked team]) + 
+SUMIF('2019bets'![Round]; "1st Rd";'2019bets'![Bet_Games Won by Lower Ranked team]) + 
+SUMIF('2018bets'![Round]; "1st Rd";'2018bets'![Bet_Games Won by Lower Ranked team]) )
+/ ( COUNTIF('2021bets'![Round]; "1st Rd") + 
+COUNTIF('2020bets'![Round]; "1st Rd") + 
+COUNTIF('2019bets'![Round]; "1st Rd") + 
+COUNTIF('2018bets'![Round]; "1st Rd") )
+
+
+-- RESULT: Inconclusive, as I could not see any pattern on the resulting data apart from some outliers.
+
+
+
+-- In the [Participant Surname] column, I used this string manipulation to keep participants discrete and reveal only their surname:
+
+[Participant Surname]
+= RIGHT([Participant Full Name]; LEN([Participant Full Name]) - SEARCH(" "; [Participant Full Name]; 1))
