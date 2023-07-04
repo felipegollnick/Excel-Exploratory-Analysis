@@ -31,4 +31,4 @@ For this analysis, I used the following Excel functions:
 - LEN
 - SEARCH
 
-### [Check out the PDF file with the formulas and the result tables](https://github.com/felipegollnick/Excel-Exploratory-Analysis/blob/main/Gollnick's%20NBA%20Playoffs%20Game.pdf).
+### [Check out the PDF file with the formulas and the result tables](https://github.com/felipegollnick/Excel-Exploratory-Analysis/blob/main/Gollnick's%20NBA%20Playoffs%20Game.pdf)
