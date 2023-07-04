@@ -1,7 +1,7 @@
 # Excel-Exploratory-Analysis
 _Using Excel to analyze my friends' NBA Playoffs bets_
 
-![Marcus Spiske - Unsplash]([https://i.ibb.co/cFzwYcB/formul-rio-google.png](https://images.unsplash.com/photo-1546519638-68e109498ffc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1190&q=80))
+![Marcus Spiske - Unsplash](https://i.ibb.co/2FD7wNf/Marcus-Siske-Unsplash.jpg)
 _Picture by [Marcus Spiske on Splash](https://unsplash.com/photos/BfphcCvhl6E)_
 
 **Gollnick's NBA Playoffs Predictions Game** was a betting game that I runned from 2018 to 2022 just for the sake of having a little bit of fun with my friends during the NBA playoffs. Betting was actually free and there was no prize money.
@@ -31,4 +31,4 @@ For this analysis, I used the following Excel functions:
 - LEN
 - SEARCH
 
-Check out the PDF files with the formulas and the result tables.
+### [Check out the PDF file with the formulas and the result tables](https://github.com/felipegollnick/Excel-Exploratory-Analysis/blob/main/Gollnick's%20NBA%20Playoffs%20Game.pdf).
